@@ -1,1 +1,1 @@
-# PL-300-Case-Study-Practice-Exam
+# PL-300-Practice-Exam
