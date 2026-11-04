@@ -85,39 +85,155 @@ D) Certified Endorsement Badge
 ## Description: Lineage and Impact Analysis is your absolute best friend when modifying shared assets. It visually maps out all downstream dependencies—even across different workspaces—so you can see exactly which reports and dashboards will break before you touch a single table or column.
 (Answer B)
 ---
-## 1. On-Premises Data Gateways (The Bridge)
-When your data lives inside your company's physical office servers (like an on-premises SQL Server) and Power BI lives in the cloud, they can't talk to each other directly. You need a Gateway.
+# 📝 Question 6
+You are the sole report creator for your department, and you need to connect your Power BI Service workspace to a local, on-premises SQL Server database that sits behind your company's firewall. Because you are the only one managing this data and you want a quick setup without involving enterprise IT administrators, you decide to install a gateway on your own local workstation.
 
-Standard Mode: Built for multiple users and complex enterprise scenarios. Multiple people can share connections through it.
+## Question: Which type of gateway installation should you choose, keeping in mind your requirement?
 
-Personal Mode: Built for a single user (just you). It can only be used with Power BI, cannot be shared with teammates, and requires your personal computer to stay turned on and online for refreshes to work.
+A) Standard mode gateway
 
-## 2. Refresh Schedules & Limits
-Instead of manually clicking refresh every time data changes, Power BI automates it.
+B) Personal mode gateway
 
-Frequency Limits: You can schedule up to 8 daily time slots on Shared Capacity, or up to 48 time slots on Premium/Fabric Capacity.
+C) Virtual Network (VNet) data gateway
 
-The Big Gotcha (Failures & Inactivity):
+D) On-premises data gateway (Enterprise cluster)
 
-If a semantic model's refresh fails 4 consecutive times, Power BI automatically disables the refresh schedule.
+## Description: Because you are the sole report creator in your organization and want to manage the gateway locally on your own desktop without enterprise IT overhead, Personal mode is precisely designed for this exact use case. Remember, Personal mode can only be used by a single user, supports Power BI exclusively, and doesn't require sharing connections with a wider team.
+(Answer B)
+---
+# 📝 Question 7
+You have configured an on-premises data gateway in standard mode to allow multiple members of your department to connect to a shared SQL Server database. One morning, team members report that their scheduled report refreshes are failing. Upon investigating the query path and architecture, you need to explain how the cloud service communicates with your on-premises server through the firewall.
 
-If no user visits the report or dashboard for 2 months (60 days), Power BI also disables the refresh schedule to save resources.
+## Question: Which Azure service acts as the secure cloud message queue and waiting room that bridges Power BI Service and your local on-premises gateway?
 
-## 3. Incremental Refresh (The Efficiency King)
-If you have billions of rows of historical data, refreshing everything every single day takes forever and crashes your system. Incremental refresh only updates what changed (e.g., the last 10 days) while keeping historical data safe.
+A) Azure Blob Storage
 
-The Magic Rule: You must create two exact date/time parameters named RangeStart and RangeEnd in Power Query Editor.
+B) Azure Service Bus
 
-The Prerequisite: The data source and queries must support query folding (translating Power Query steps into native SQL queries run directly by the database). Without query folding, incremental refresh breaks.
+C) Azure Active Directory (Entra ID)
 
-## 4. Endorsement (Trusting Your Data)
-When an organization has hundreds of reports, users get confused about which numbers are correct. Endorsement fixes this:
+D) Azure Event Hubs
 
-Promoted: Highlights content you think is valuable, worthwhile, and ready for others to use (anyone with write permissions can promote).
+## Description: Azure Service Bus acts as the secure cloud message broker (the waiting room) that allows the Power BI cloud service and your on-premises data gateway to securely pass queries and responses back and forth without either side needing to breach the company's inbound firewall.
+(ANSWER B)
+---
+# 📝 Question 8
+You have successfully set up your on-premises data gateway and want to configure automated refreshes for a critical semantic model that lives in your shared workspace on the Power BI service.
 
-Certified: A strict, highly selective badge reserved for authoritative, single-source-of-truth models. Usually requires admin approval or special permissions.
+## Question: Assuming your workspace is on standard shared capacity, what is the maximum number of daily refresh time slots you are allowed to configure for that semantic model?
 
-## 5. Query Caching & Impact Analysis
-Query Caching: Available on Premium/Fabric capacities. It saves the results of the initial landing page query so reports load instantly for frequent users without overloading the dataset.
+A) 4 daily time slots
 
-Lineage & Impact Analysis: Allows you to see downstream dependencies. If you change a table column or shut down a data source, impact analysis shows you every single report and workspace across the entire company that will break.
+B) 8 daily time slots
+
+C) 24 daily time slots
+
+D) 48 daily time slots
+
+## Description: On standard shared capacity, Power BI caps your automated scheduled refreshes at 8 daily time slots. If you need up to 48 daily time slots (every 30 minutes), your workspace must be backed by Premium or Fabric capacity.
+(Answer B)
+---
+# 📝 Question 9
+You are managing a massive enterprise semantic model containing billions of rows of transaction data. To maintain high performance without overwhelming your source database, you set up a hybrid model where some dimension tables are cached in memory, while heavy fact tables query the data source live. You want certain tables to act as both Import and DirectQuery simultaneously depending on how a user interacts with the report.
+
+## Question: What is the name of this specific hybrid table storage mode in Power BI?
+
+A) Combined Mode
+
+B) Dual Mode
+
+C) Blended Mode
+
+D) Virtual Mode
+## Description: In Power BI composite models, tables can be set to one of three storage modes: Import, DirectQuery, or Dual. Tables set to Dual can act as both Import and DirectQuery simultaneously. Power BI dynamically decides whether to pull from memory (Import) or send a live query to the source (DirectQuery) depending on the needs of each specific visual or relationship, which is heavily used when working with Aggregations.
+
+(Answer B)
+---
+# 📝 Question 10
+You have built a core corporate sales semantic model that serves as the definitive single source of truth for the entire company. Executive leadership wants to ensure that all business units know this model is strictly vetted, authoritative, and officially approved for enterprise-wide decision-making, distinguishing it from standard user-created reports.
+
+## Question: Which official endorsement badge should you apply to this semantic model?
+
+A) Promoted
+
+B) Certified
+
+C) Verified
+
+D) Approved
+## Description: Certified is the highest, most rigorous endorsement level in Power BI. It signifies that the semantic model is an authoritative, trusted single source of truth that meets strict organizational quality standards (often requiring tenant or workspace admin approval).
+
+Promoted, on the other hand, is used to highlight content that is valuable and ready for use, but doesn't carry the strict "authoritative single source of truth" weight of certification.
+
+(Answer B)
+---
+
+
+
+---
+# 1. On-Premises Data Gateways
+Gateways act as a secure bridge between on-premises corporate firewalls (e.g., local SQL servers) and the Power BI cloud service.
+
+## Standard Mode:
+
+Multi-user enterprise setup.
+
+Supports multiple data sources and multiple users.
+
+Works with Power BI, Power Apps, Power Automate, etc.
+
+Installed on a dedicated server running 24/7.
+
+## Personal Mode:
+
+Single-user setup (restricted to your account).
+
+Power BI only. Cannot be shared.
+
+Installed on your local desktop (must stay online for refreshes).
+
+### 🔄 The Query Gateway Flow (Under the Hood)
+Cloud Request: Power BI Service creates a query and encrypts credentials, placing them in the gateway queue.
+
+Azure Service Bus: The gateway cloud service pushes the request to Azure Service Bus (secure cloud waiting room).
+
+Pickup: The on-premises gateway pings Azure Service Bus and pulls the request down through outbound ports.
+
+Decryption & Connection: The gateway decrypts credentials and connects to the local data source.
+
+Execution: The local database runs the query.
+
+Return Trip: Results are sent back through the gateway up to the Power BI Service.
+
+# 2. Refresh Schedules & Limits
+Frequency Limits:
+
+Shared Capacity: Up to 8 daily time slots.
+
+Premium / Fabric Capacity: Up to 48 daily time slots (every 30 mins).
+
+Automatic Disabling Rules:
+
+Power BI disables a refresh schedule after 4 consecutive failures.
+
+Power BI disables a refresh schedule after 2 months (60 days) of total user inactivity (no one views the report/dashboard).
+
+# 3. Incremental Refresh
+Allows fast refreshing of large datasets by only updating recent changes instead of reloading historical data.
+
+Mandatory Requirements:
+
+Must create two exact, case-sensitive Date/Time parameters named RangeStart and RangeEnd.
+
+The data source and queries must support query folding (translating steps into native database queries).
+
+# 4. Endorsement, Caching, & Lineage
+Endorsement Tiers:
+
+Promoted: Highlights valuable, ready-to-use content (any workspace write-user can apply).
+
+Certified: Strict, highly selective single-source-of-truth badge requiring organizational approval.
+
+Query Caching (Premium/Fabric only): Saves initial landing page query results to speed up report load times and reduce capacity load.
+
+Lineage & Impact Analysis: Visually maps downstream dependencies across workspaces so you know which reports will break before modifying tables or data sources.
